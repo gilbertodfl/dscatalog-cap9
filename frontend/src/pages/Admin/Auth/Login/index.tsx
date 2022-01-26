@@ -37,7 +37,7 @@ const Login = () => {
       <h1>LOGIN</h1>
       {hasError && (
         <div className="alert alert-danger">
-          This is a danger alert—check it out!
+          Erro ao tentar efetuar login
         </div>
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,7 +51,7 @@ const Login = () => {
               }
             })}
             type="text"
-            className="form-control base-input"
+            className={ `form-control base-input  ${errors.username ? 'is-invalid' : '' }`}
             placeholder="Email"
             name="username"
           />
@@ -66,7 +66,7 @@ const Login = () => {
               required: 'Campo Obrigatório',
             })}
             type="password"
-            className="form-control base-input "
+            className={ `form-control base-input  ${errors.password ? 'is-invalid' : '' }`}
             placeholder="Password"
             name="password"
           />
