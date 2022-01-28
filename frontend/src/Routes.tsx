@@ -4,10 +4,12 @@ import Auth from 'pages/Admin/Auth';
 import Catalog from 'pages/Catalog';
 import Home from 'pages/Home';
 import ProductDetails from 'pages/ProductDetails';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import history from 'util/history';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 
 const Routes = () => (
-  <BrowserRouter>
+  // aqui agora vamos trocar o componente BrowserRouter por Route apenas. 
+  <Router history={history} >
     <Navbar />
     <Switch>
       <Route path="/" exact>
@@ -16,7 +18,7 @@ const Routes = () => (
       <Route path="/products" exact>
         <Catalog />
       </Route>
-      <Redirect from="/admin/auth" to="admin/auth/login" exact />  
+      <Redirect from="/admin/auth" to="/admin/auth/login" exact />  
       <Route path="/admin/auth">
          <Auth />
       </Route>
@@ -29,6 +31,6 @@ const Routes = () => (
         <Admin />
       </Route>
     </Switch>
-  </BrowserRouter>
+  </Router>
 );
 export default Routes;

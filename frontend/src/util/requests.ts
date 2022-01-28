@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
+import history from './history';
 
 export const BASE_URL=process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
 
@@ -51,3 +52,31 @@ export const getAuthData= () =>{
     // A função JSON.parse converte um strng em um objeto.
     return ( JSON.parse( str) as LoginResponse) ;
 }
+//// intercepstors  : https://github.com/axios/axios#interceptors
+axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    console.log( 'interceptors antes da requisição');
+    return config;
+  }, function (error) {
+    // Do something with request error
+    console.log( 'ERROR !!!! interceptors antes da requisição');
+    return Promise.reject(error);
+  });
+
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    console.log( 'interceptors COM SUCESSO.');
+
+    return response;
+  }, function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    console.log( 'interceptors COM FALHA!!!');
+    if( error.response.status === 401 || error.response.status === 403){
+        console.log( error.response.status);
+        history.push('/admin/auth/login');
+    }
+    return Promise.reject(error);
+  });
