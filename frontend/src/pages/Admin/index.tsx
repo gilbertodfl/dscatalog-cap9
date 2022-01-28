@@ -1,6 +1,7 @@
 import { Switch, Route } from 'react-router';
 import Navbar from './Navbar';
 import './styles.css';
+import Users from './User';
 
 const Admin = () =>{
 return(
@@ -16,7 +17,7 @@ return(
                     <h1>Category CRUD</h1>
                 </Route>
                 <Route path="/admin/users"> 
-                    <h1>Users CRUD</h1>
+                    <Users />
                 </Route>
             </Switch>
             
