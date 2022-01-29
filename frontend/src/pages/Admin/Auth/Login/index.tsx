@@ -23,6 +23,7 @@ const Login = () => {
 
   // useHIstory permite fazer redirecionamento, mudança de rotas
   const history = useHistory();
+
   const onSubmit = (formData: FormData) => {
     requestBackendLogin(formData)
       .then((response) => {
@@ -31,7 +32,7 @@ const Login = () => {
         const token = getAuthData().access_token;
         console.log ( token);
         setHasError(false);
-        history.push('admin');
+        history.push('/admin/products');
       })
       .catch((error) => {
         console.log('erro ', error);

@@ -1,11 +1,10 @@
 import { ReactComponent as AuthImage } from 'assets/images/auth-image.svg';
 import {  Switch, Route } from 'react-router-dom';
-import PrivateRoute  from 'components/PrivateRoute';
 import Login from './Login';
 import './styles.css';
 
 const Auth = () => {
-//  console.log('auth');
+  //  console.log('auth');
   return (
     <div className="auth-container">
       <div className="auth-banner-container">

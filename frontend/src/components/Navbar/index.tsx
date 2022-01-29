@@ -1,8 +1,38 @@
 import './styles.css';
 import 'bootstrap/js/src/collapse.js';
 import { Link, NavLink } from 'react-router-dom';
+import {
+  getTokenData,
+  isAuthenticated,
+  removeAuthData,
+  TokenData,
+} from 'util/requests';
+import { useEffect, useState } from 'react';
+import history from 'util/history';
+import { getTokenSourceMapRange } from 'typescript';
+type AuthData = {
+  authenticated: boolean;
+  tokenData?: TokenData;
+};
+const Navbar = () => {
+  const [authData, setAuthData] = useState<AuthData>({ authenticated: false });
+  useEffect(() => {
+    if (isAuthenticated()) {
+      setAuthData({
+        authenticated: true,
+        tokenData: getTokenData(),
+      });
+    } else {
+      setAuthData({ authenticated: false });
+    }
+  }, []);
 
-function Navbar() {
+  const handleLogoutClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    removeAuthData();
+    setAuthData({ authenticated: false });
+    history.replace('/');
+  };
   return (
     <>
       <nav className="navbar navbar-expand-md navbar-dark bg-primary main-nav">
@@ -26,7 +56,7 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="dscatalog-navbar">
             <ul className="navbar-nav offset-md-2 main-menu">
               <li>
-                <NavLink to="/" activeClassName ="active" exact>
+                <NavLink to="/" activeClassName="active" exact>
                   Home
                 </NavLink>
               </li>
@@ -37,15 +67,28 @@ function Navbar() {
               </li>
               <li>
                 <NavLink to="/admin" activeClassName="active">
-                    Admin
+                  Admin
                 </NavLink>
               </li>
             </ul>
+          </div>
+          <div>
+            {authData.authenticated ? (
+              <>
+                <span>{authData.tokenData?.user_name}</span>
+                <a href="#logout" onClick={handleLogoutClick}>
+                  {' '}
+                  LOGOUT
+                </a>
+              </>
+            ) : (
+              <Link to="/admin/auth"> LOGIN</Link>
+            )}
           </div>
         </div>
       </nav>
     </>
   );
-}
+};
 
 export default Navbar;

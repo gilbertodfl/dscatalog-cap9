@@ -11,7 +11,7 @@ const basicheader  = ()  =>  'Basic ' + window.btoa(CLIENT_ID + ':' + CLIENT_SEC
 
 type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
 
-type TokenData = {
+export type TokenData = {
     exp: number;
     user_name:string;
     authorities: Role[];
@@ -96,7 +96,9 @@ axios.interceptors.response.use(function (response) {
           return undefined;
       }
   }
-
+export const removeAuthData = () => {
+    localStorage.removeItem(tokenKey);
+}
   export const isAuthenticated = () : boolean =>{
 
     const tokenData = getTokenData();
