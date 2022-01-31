@@ -12,8 +12,6 @@ const Home = () => {
   return (
     <>
       <div className="home-container">
-        <h1>Resultado = {hasAnyRoles(['ROLE_ADMIN'  ]) ? 'sim': 'nao'}</h1>
-        <h1>{ isAuthenticated() ? 'autenticado' : 'não autenticado'}</h1>
         <div className="base-card home-card">
           <div className="home-content-container">
             <h1> Conheça o melhor catálogo de produto</h1>
