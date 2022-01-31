@@ -1,4 +1,4 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useForm      } from 'react-hook-form';
 import ButtonIcon       from 'components/ButtonIcon';
 import {  getTokenData, requestBackendLogin, saveAuthData } from 'util/requests';
@@ -12,12 +12,20 @@ type FormData = {
   username: string;
   password: string;
 };
+
+type LocationState ={
+   from: string;
+
+}
 /* maria@gmail.com
 senha: 123456
 */
 const Login = () => {
 
+  const location = useLocation<LocationState>();
+  const { from }= location.state || { from: { pathname: '/admin'}};
   const { setAuthContextData } = useContext( AuthContext);
+  
   const [hasError, setHasError] = useState(false);
   const {
     register,
@@ -40,7 +48,7 @@ const Login = () => {
           authenticated: true,
           tokenData: getTokenData()
         });
-        history.push('/admin/products');
+        history.replace(from);
       })
       .catch((error) => {
 //        console.log('erro ', error);
