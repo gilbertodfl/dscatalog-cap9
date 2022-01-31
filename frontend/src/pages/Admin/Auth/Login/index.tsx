@@ -1,8 +1,10 @@
 import { Link, useHistory } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import ButtonIcon from 'components/ButtonIcon';
-import { getAuthData, requestBackendLogin, saveAuthData } from 'util/requests';
-import { useState } from 'react';
+import { useForm      } from 'react-hook-form';
+import ButtonIcon       from 'components/ButtonIcon';
+import {  getTokenData, requestBackendLogin, saveAuthData } from 'util/requests';
+import { useState     } from 'react';
+import {  AuthContext } from 'AuthContext';
+import { useContext   } from 'react';
 
 import './styles.css';
 
@@ -14,6 +16,8 @@ type FormData = {
 senha: 123456
 */
 const Login = () => {
+
+  const { setAuthContextData } = useContext( AuthContext);
   const [hasError, setHasError] = useState(false);
   const {
     register,
@@ -27,15 +31,19 @@ const Login = () => {
   const onSubmit = (formData: FormData) => {
     requestBackendLogin(formData)
       .then((response) => {
-        console.log('sucesso ', response);
+//        console.log('sucesso ', response);
         saveAuthData( response.data);
-        const token = getAuthData().access_token;
-        console.log ( token);
+//        const token = getAuthData().access_token;
+//        console.log ( token);
         setHasError(false);
+        setAuthContextData({ 
+          authenticated: true,
+          tokenData: getTokenData()
+        });
         history.push('/admin/products');
       })
       .catch((error) => {
-        console.log('erro ', error);
+//        console.log('erro ', error);
         setHasError(true);
       });
   };
